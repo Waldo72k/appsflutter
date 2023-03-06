@@ -12,9 +12,11 @@ class Cronometro extends StatefulWidget {
 class _CronometroState extends State<Cronometro> {
   int milisegundos = 0;
   int milisegun = 0;
+  int mili = 0;
   bool estaCorriendo = false;
   late Timer timer;
   List vueltas = [];
+  List tiempoTotal = [];
 
 //Para inciiar el cronometro
   void iniciarCronometro() {
@@ -25,25 +27,12 @@ class _CronometroState extends State<Cronometro> {
           ), (timer) {
         this.milisegundos += 10; //10
         this.milisegun += 10; //10
+        this.mili += 10; //10
         setState(() {});
       });
       estaCorriendo = true;
     }
   }
-
-  //Para inciiar el cronometro
-  // void segundoReloj() {
-  //   if (!estaCorriendo) {
-  //     timer = Timer.periodic(
-  //         const Duration(
-  //           milliseconds: 10, //10
-  //         ), (timer) {
-  //       this.milisegun += 10; //10
-  //       setState(() {});
-  //     });
-  //     estaCorriendo = true;
-  //   }
-  // }
 
 //Para detener el cronometro
   void detenerCronometro() {
@@ -90,6 +79,26 @@ class _CronometroState extends State<Cronometro> {
     });
   }
 
+  //Para agregar vueltas
+  void agregarVueltactual() {
+    String dosValores(int valor) {
+      return valor >= 10 ? "$valor" : "0$valor";
+    }
+
+    Duration duracion = Duration(milliseconds: this.mili);
+    String horas = dosValores(duracion.inHours);
+    String minutos = dosValores(duracion.inMinutes.remainder(60));
+    String segundos = dosValores(duracion.inSeconds.remainder(60));
+    String mili = dosValores(duracion.inMilliseconds.remainder(1000));
+
+    mili = mili[0] + mili[1];
+
+    String vueltactual = '$horas:$minutos:$segundos:$mili';
+    setState(() {
+      tiempoTotal.add(vueltactual);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -118,11 +127,18 @@ class _CronometroState extends State<Cronometro> {
                         children: [
                           Text(
                             "Vuelta n.${index + 1}",
-                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 17),
                           ),
                           Text(
                             "${vueltas[index]}",
-                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 17),
+                          ),
+                          Text(
+                            "${tiempoTotal[index]}",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 17),
                           ),
                         ],
                       ),
@@ -135,7 +151,6 @@ class _CronometroState extends State<Cronometro> {
             TextButton(
                 onPressed: () {
                   iniciarCronometro();
-                  // segundoReloj();
                 },
                 child: const Icon(
                   Icons.not_started_outlined,
@@ -143,7 +158,10 @@ class _CronometroState extends State<Cronometro> {
                   color: Colors.green,
                 )),
             TextButton(
-                onPressed: agregarVuelta,
+                onPressed: () {
+                  agregarVuelta();
+                  agregarVueltactual();
+                },
                 child: const Icon(
                   Icons.flag_circle_outlined,
                   size: 60,
@@ -165,6 +183,9 @@ class _CronometroState extends State<Cronometro> {
               setState(() {
                 this.milisegundos = 0;
                 this.milisegun = 0;
+                this.mili = 0;
+                tiempoTotal.clear();
+                vueltas.clear();
               });
             },
             child: const Text(
