@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class Fondo extends StatefulWidget {
   final double opacidadFondo;
   final String imagenFondo;
+  final Widget hijo;
   const Fondo(
-      {required this.opacidadFondo, required this.imagenFondo, super.key});
-
+      {required this.hijo,
+      required this.opacidadFondo,
+      required this.imagenFondo,
+      super.key});
+  //preguntarle a la maestra que y como requiero para poner un child en un widget propio
   @override
   State<Fondo> createState() => _FondoState();
 }
@@ -21,6 +25,7 @@ class _FondoState extends State<Fondo> {
             fit: BoxFit.cover,
             opacity: widget.opacidadFondo),
       ),
+      child: widget.hijo,
     );
   }
 }
