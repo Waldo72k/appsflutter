@@ -2,7 +2,22 @@ import 'package:flutter/material.dart';
 
 class Inputs extends StatefulWidget {
   final String labelNombre;
-  const Inputs({required this.labelNombre, super.key});
+  final bool obscurerInput;
+  final int? longitudInput;
+  final TextInputType tipoTipado;
+  final Widget? iconoSufijo;
+  final Widget? iconoPrefijo;
+  final Widget? iconoPrefix;
+
+  const Inputs(
+      {this.iconoPrefijo,
+      this.iconoPrefix,
+      this.iconoSufijo,
+      this.tipoTipado = TextInputType.multiline,
+      this.obscurerInput = false,
+      this.longitudInput,
+      this.labelNombre = "",
+      super.key});
 
   @override
   State<Inputs> createState() => _InputsState();
@@ -17,12 +32,11 @@ class _InputsState extends State<Inputs> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: TextField(
             // readOnly: true, este es para que no se pueda modificar, para activarse tras cumplir x condicion me imagino
-            obscureText: true,
-            obscuringCharacter: "°",
+            obscureText: widget.obscurerInput,
             autocorrect: false,
             keyboardType: TextInputType.multiline,
             textAlign: TextAlign.center,
-            maxLength: 10,
+            maxLength: widget.longitudInput,
             decoration: InputDecoration(
                 // icon: const Icon(
                 //   Icons.lock,
@@ -36,9 +50,11 @@ class _InputsState extends State<Inputs> {
                 isCollapsed: false,
                 contentPadding: const EdgeInsets.fromLTRB(
                     10, 30, 10, 10), //LTRB = Left, Top, Right, Bottom
-                prefix: const Icon(Icons.abc),
-                prefixIcon: const Icon(Icons.abc_outlined),
-                suffixIcon: const Icon(Icons.remove_red_eye),
+                prefix: widget.iconoPrefix, //const Icon(Icons.abc),
+                prefixIcon:
+                    widget.iconoPrefijo, //const Icon(Icons.abc_outlined),
+                suffixIcon:
+                    widget.iconoSufijo, //const Icon(Icons.remove_red_eye),
                 border: const OutlineInputBorder(), // Pa moverle el contorno
                 constraints: const BoxConstraints(maxWidth: double.infinity)),
             cursorRadius: const Radius.circular(40),

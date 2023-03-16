@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inputs/fondo.dart';
 import 'package:inputs/inputs.dart';
 import 'package:inputs/logo.dart';
+import 'package:inputs/pages/registro.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,15 +19,10 @@ class HomePage extends StatelessWidget {
             ),
           )),
         ),
-        body: Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/space.jpg"),
-                fit: BoxFit.cover,
-                opacity: 0.9),
-          ),
-          child: Expanded(
+        body: Fondo(
+          imagenFondo: "assets/images/space.jpg",
+          opacidadFondo: 0.9,
+          hijo: Expanded(
             child: Column(
               children: [
                 const Logo(
@@ -38,10 +35,15 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
                       Inputs(
+                        tipoTipado: TextInputType.multiline,
                         labelNombre: "Nombre Usuario",
+                        obscurerInput: false,
                       ),
                       Inputs(
+                        tipoTipado: TextInputType.multiline,
                         labelNombre: "Contraseña",
+                        obscurerInput: true,
+                        iconoSufijo: Icon(Icons.remove_red_eye),
                       ),
                     ],
                   ),
@@ -49,10 +51,14 @@ class HomePage extends StatelessWidget {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 0, 0, 100),
-                      child: TextButton(
-                          onPressed: () {}, child: const Text("Registrate")),
-                    )
+                        padding: const EdgeInsets.fromLTRB(50, 0, 0, 10),
+                        child: TextButton(
+                            onPressed: () {
+                              Route route = MaterialPageRoute(
+                                  builder: (__) => const Registro());
+                              Navigator.push(context, route);
+                            },
+                            child: const Text("Registrate!")))
                   ],
                 ),
               ],
