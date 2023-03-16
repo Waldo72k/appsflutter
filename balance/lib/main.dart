@@ -1,8 +1,12 @@
+import 'package:balance/provider/ui_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:balance/pages/home_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => UIProvider())],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,9 +18,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Baranchi',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
+      theme: ThemeData.dark().copyWith(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.grey[900],
+          ),
+          scaffoldBackgroundColor: Colors.grey[900],
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: Colors.blue,
+            // selectedIconTheme: IconThemeData(color: Colors.amber
+          )),
       initialRoute: 'home',
       routes: {
         'home': (_) => const HomePage(),

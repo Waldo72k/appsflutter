@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:balance/widgets/balance_page_wt/back_sheet.dart';
+import 'package:balance/widgets/balance_page_wt/front_sheet.dart';
 import 'package:flutter/material.dart';
 
 class BalancePage extends StatefulWidget {
@@ -75,29 +76,10 @@ class _BalancePageState extends State<BalancePage> {
             Stack(
               //Aqui ponemos una lista de Widgets
               children: [
-                Container(
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorDark,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: const BackSheet(),
-                ),
+                const BackSheet(),
                 Padding(
                   padding: EdgeInsets.only(top: _max),
-                  child: Container(
-                    height: 800,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorLight,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                  ),
+                  child: FrontSheet(),
                 )
               ],
             )
