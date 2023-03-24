@@ -89,7 +89,7 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
               var height = constraints.biggest.height / 6;
               return Column(
                 mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly, //esto no lo pusimos en class
+                    MainAxisAlignment.center, //esto no lo pusimos en class
                 children: [
                   Table(
                     border: TableBorder.symmetric(
@@ -114,8 +114,33 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                         _num('9', height),
                       ]),
                       TableRow(children: [
-                        _num('.', height),
-                        _num('0', height),
+                        _btn(".", height, Colors.transparent, () {
+                          setState(() {
+                            if (importe == '0.00') {
+                              importe = '0';
+                              importe += ".";
+                            } else if (importe.contains(".")) {
+                              importe += "";
+                            } else {
+                              importe += ".";
+                            }
+                          });
+                        }),
+                        _btn("0", height, Colors.transparent, () {
+                          setState(() {
+                            //////////Implementar mas validaciones del 0, una es lo del punto decimal despues del cero si es que el usuario mete algo y el unico es cero, que se intercambie el valor, obviamente tiene que no ser decimal
+                            if (importe.contains(".")) {
+                              importe += "0";
+                            } else if (!importe.contains(".") &&
+                                importe != "0.00") {
+                              importe += "0";
+                            } else if (importe == '0.00') {
+                              importe = '0';
+                            } else if (importe.startsWith("0")) {
+                              importe += "";
+                            }
+                          });
+                        }),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onLongPress: () {
@@ -124,10 +149,15 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                             });
                           },
                           onTap: () {
-                            if (importe.isNotEmpty) {
-                              importe =
-                                  importe.substring(0, importe.length - 1);
-                            }
+                            setState(() {
+                              if (importe.isNotEmpty) {
+                                importe =
+                                    importe.substring(0, importe.length - 1);
+                              }
+                              if (importe == '' || importe == "0.0") {
+                                importe = '0.00';
+                              }
+                            });
                           },
                           child: SizedBox(
                               height: height,
@@ -137,30 +167,25 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                               )),
                         ),
                       ]),
+                    ],
+                  ),
+                  Table(
+                    border: TableBorder.symmetric(
+                        inside: const BorderSide(
+                      color: Colors.grey,
+                      width: 0.7,
+                    )),
+                    children: [
                       TableRow(children: [
-                        Expanded(
-                          child: TableCell(
-                            child: _btn('Cancelar', height, Colors.red, () {
-                              setState(() {
-                                importe = '0.00';
-                                Navigator.pop(context);
-                              });
-                            }),
-                          ),
-                        ),
-                        const TableCell(
-                          child: FractionallySizedBox(
-                            widthFactor: 1.0,
-                            child: SizedBox.shrink(),
-                          ),
-                        ),
-                        Expanded(
-                          child: TableCell(
-                            child: _btn('Aceptar', height, Colors.green, () {
-                              Navigator.pop(context);
-                            }),
-                          ),
-                        ),
+                        _btn('Cancelar', height, Colors.red, () {
+                          setState(() {
+                            importe = '0.00';
+                            Navigator.pop(context);
+                          });
+                        }),
+                        _btn('Aceptar', height, Colors.green, () {
+                          Navigator.pop(context);
+                        }),
                       ])
                     ],
                   )
