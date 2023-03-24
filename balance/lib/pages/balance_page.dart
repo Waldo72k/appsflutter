@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:balance/widgets/balance_page_wt/back_sheet.dart';
+import 'package:balance/widgets/balance_page_wt/custom_fab.dart';
 import 'package:balance/widgets/balance_page_wt/front_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -39,53 +40,56 @@ class _BalancePageState extends State<BalancePage> {
   }
 
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          elevation: 0.0,
-          expandedHeight: 100,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '\$ 2,500.00',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 20,
+    return Scaffold(
+      floatingActionButton: const CustomFAB(),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            elevation: 0.0,
+            expandedHeight: 100,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    '\$ 2,500.00',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-                Text(
-                  'Balance',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    'Balance',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        SliverList(
-            delegate: SliverChildListDelegate(
-          [
-            // const SizedBox( //algo asi para mover el sliver en andorid hue
-            //   height: 800,
-            // )
-            Stack(
-              //Aqui ponemos una lista de Widgets
-              children: [
-                const BackSheet(),
-                Padding(
-                  padding: EdgeInsets.only(top: _max),
-                  child: FrontSheet(),
-                )
-              ],
-            )
-          ],
-        ))
-      ],
+          SliverList(
+              delegate: SliverChildListDelegate(
+            [
+              // const SizedBox( //algo asi para mover el sliver en andorid hue
+              //   height: 800,
+              // )
+              Stack(
+                //Aqui ponemos una lista de Widgets
+                children: [
+                  const BackSheet(),
+                  Padding(
+                    padding: EdgeInsets.only(top: _max),
+                    child: FrontSheet(),
+                  )
+                ],
+              )
+            ],
+          ))
+        ],
+      ),
     );
   }
 }
