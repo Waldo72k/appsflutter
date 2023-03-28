@@ -38,10 +38,13 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           setState(() {
-            if (importe == '0.00') {
-              importe = '';
+            if (importe == '0.00' || importe == "0") {
+              importe = _text;
+            } else if (!RegExp(r'^(\d+\.\d{2})?$').hasMatch(importe)) {
+              importe += _text;
+            } else {
+              importe += "";
             }
-            importe += _text;
           });
         },
         child: SizedBox(
@@ -129,15 +132,20 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                         _btn("0", height, Colors.transparent, () {
                           setState(() {
                             //////////Implementar mas validaciones del 0, una es lo del punto decimal despues del cero si es que el usuario mete algo y el unico es cero, que se intercambie el valor, obviamente tiene que no ser decimal
-                            if (importe.contains(".")) {
-                              importe += "0";
+                            if (importe == "0.00") {
+                              importe = "0";
                             } else if (!importe.contains(".") &&
-                                importe != "0.00") {
-                              importe += "0";
-                            } else if (importe == '0.00') {
-                              importe = '0';
-                            } else if (importe.startsWith("0")) {
+                                importe.startsWith("0")) {
                               importe += "";
+                            } else if (importe.contains(".")) {
+                              if (RegExp(r'^\d+(\.\d{2})?$')
+                                  .hasMatch(importe)) {
+                                importe += "";
+                              } else {
+                                importe += "0";
+                              }
+                            } else if (!importe.contains(".")) {
+                              importe += "0";
                             }
                           });
                         }),
