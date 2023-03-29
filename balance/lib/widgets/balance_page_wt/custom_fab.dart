@@ -19,7 +19,7 @@ class CustomFAB extends StatelessWidget {
         Navigator.push(
             context,
             CustomAnimation(
-              page: const AddExpenses(),
+              page: AddExpenses(),
               duration: const Duration(milliseconds: 720),
               curve: Curves.easeOutBack,
             ));

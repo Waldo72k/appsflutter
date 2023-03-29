@@ -1,3 +1,4 @@
+import 'package:balance/models/combined_model.dart';
 import 'package:balance/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class BSNumKeyboard extends StatefulWidget {
 }
 
 class _BSNumKeyboardState extends State<BSNumKeyboard> {
+  CombinedModel combinedModel = CombinedModel();
   String importe = '0.00';
 
   @override
@@ -209,6 +211,9 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                                   importe == '0') {
                                 importe = '0.00';
                               }
+                              double result = double.parse(importe);
+                              combinedModel.expense = result;
+                              print(combinedModel.expense);
                               Navigator.pop(context);
                             });
                           })
